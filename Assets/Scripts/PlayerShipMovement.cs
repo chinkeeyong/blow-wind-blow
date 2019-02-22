@@ -17,6 +17,7 @@ public class PlayerShipMovement : MonoBehaviour
     public float xTiltMagnitude;
     public float zTiltMagnitude;
     public float zTiltLerpAmount;
+    public float zTiltMaximum;
 
     private Rigidbody rb;
     private Quaternion seaRollingRotation;
@@ -71,8 +72,18 @@ public class PlayerShipMovement : MonoBehaviour
         float angleToVelocity = Vector3.SignedAngle(transform.forward, rb.velocity, Vector3.up);
         // Tilt left or right depending on the turn angle
         transform.Rotate(Vector3.forward, angleToVelocity * Time.deltaTime * zTiltMagnitude);
-        // Sanity check - lerp back to resting position
+        // Sanity check - lerp back to resting position, and cap at z tilt maximum
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.forward, Vector3.up), Time.deltaTime * zTiltLerpAmount);
+        if (transform.eulerAngles.z > zTiltMaximum)
+        {
+            if (transform.eulerAngles.z < 180)
+            {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, zTiltMaximum);
+            } else if (transform.eulerAngles.z < 360 - zTiltMaximum)
+            {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 360 - zTiltMaximum);
+            }
+        }
 
         /*
         // Raycast to the sea collider mesh and rotate to the normal

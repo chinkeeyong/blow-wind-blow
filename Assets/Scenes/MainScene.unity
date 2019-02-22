@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 1
-  scale: 0.3
+  scale: 0.25
   speed: 1
   waveDistance: 1
   noiseStrength: 0.1
@@ -7442,13 +7442,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42801ea8382c54743b6c1429de499e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 1
+  forwardSpeed: 1.5
   turnLerpAmount: 1
   maxTurnSpeed: 1
   boatDepth: 0.6
   xTiltMagnitude: -10
   zTiltMagnitude: 0.5
   zTiltLerpAmount: 0.1
+  zTiltMaximum: 30
 --- !u!54 &941824345
 Rigidbody:
   m_ObjectHideFlags: 0
