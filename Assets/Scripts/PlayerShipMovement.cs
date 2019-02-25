@@ -106,12 +106,4 @@ public class PlayerShipMovement : MonoBehaviour
         */
 
     }
-	
-	// EC edited this: Pickup everything that enters the trigger
-    void OnTriggerEnter(Collider other)
-    {
-		if(other.gameObject.CompareTag("PickUp")){
-			other.gameObject.SetActive(false);
-		}
-    }
 }
