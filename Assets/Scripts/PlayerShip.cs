@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
- * This script handles the movement of the player's ship.
+ * This script handles the movement of the player's ship, as well as collision.
  * It depends on Wind.cs
 */
 
-public class PlayerShipMovement : MonoBehaviour
+public class PlayerShip : MonoBehaviour
 {
 
     public float forwardSpeed;
@@ -18,6 +19,18 @@ public class PlayerShipMovement : MonoBehaviour
     public float zTiltMagnitude;
     public float zTiltLerpAmount;
     public float zTiltMaximum;
+    public CameraFollow camerafollow;
+    public Text healthText;
+    public int maxHealth;
+    public float healthRegenPerSecond;
+    public float collisionScreenShake;
+    public float collisionBounceMagnitude;
+    public int collisionDamageBase;
+    public int collisionDamageMultiplier;
+
+    private int health;
+    private int terrainLayer;
+    private float timeToNextHealth;
 
     private Rigidbody rb;
     private Quaternion seaRollingRotation;
@@ -30,12 +43,20 @@ public class PlayerShipMovement : MonoBehaviour
     {
 
         rb = GetComponent<Rigidbody>();
+        health = maxHealth;
+        terrainLayer = 9;
 
     }
 
     void Update()
     {
 
+        MoveShip();
+        RegenHealth();
+    }
+
+    private void MoveShip()
+    {
         // Apply input movement to the rigidbody
         rb.AddForce(Wind.velocity * forwardSpeed);
 
@@ -79,7 +100,8 @@ public class PlayerShipMovement : MonoBehaviour
             if (transform.eulerAngles.z < 180)
             {
                 transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, zTiltMaximum);
-            } else if (transform.eulerAngles.z < 360 - zTiltMaximum)
+            }
+            else if (transform.eulerAngles.z < 360 - zTiltMaximum)
             {
                 transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 360 - zTiltMaximum);
             }
@@ -104,6 +126,62 @@ public class PlayerShipMovement : MonoBehaviour
         }
         transform.rotation = Quaternion.Lerp(transform.rotation, seaRollingRotation, Time.deltaTime / 0.15f);
         */
+    }
 
+    private void UpdateHealthText()
+    {
+        healthText.text = "Health: " + health;
+    }
+
+    private void RegenHealth()
+    {
+        timeToNextHealth -= Time.deltaTime;
+        if (timeToNextHealth <= 0)
+        {
+            heal(1);
+            timeToNextHealth = 1 / healthRegenPerSecond;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == terrainLayer)
+        {
+            camerafollow.shake(rb.velocity.magnitude * collisionScreenShake);
+            int collisionDamage = collisionDamageBase + Mathf.RoundToInt(rb.velocity.magnitude * collisionDamageMultiplier);
+            takeDamage(collisionDamage);
+            rb.AddForce(collision.impulse * collisionBounceMagnitude);
+        }
+    }
+
+    private void heal(int healing)
+    {
+        health += healing;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        UpdateHealthText();
+    }
+
+    private void takeDamage(int damage)
+    {
+        if (health >= maxHealth) // Protection from 1 hit KO
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                health = 1;
+            }
+        }
+        else
+        {
+            health -= damage;
+            if (health < 0)
+            {
+                health = 0;
+            }
+        }
+        UpdateHealthText();
     }
 }
