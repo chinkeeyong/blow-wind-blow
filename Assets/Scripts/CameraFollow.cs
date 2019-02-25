@@ -10,12 +10,21 @@ public class CameraFollow : MonoBehaviour
     public float OffsetY;
     public float OffsetZ;
     public float LookAngle;
+    public float shakeLerpAmount;
+
+    private float shakeAmount;
 
     void Update()
     {
 
         transform.position = target.transform.position + new Vector3(OffsetX, OffsetY, OffsetZ);
-        transform.eulerAngles = new Vector3(LookAngle, 0, 0);
+        transform.eulerAngles = new Vector3(LookAngle + Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount));
+        shakeAmount = Mathf.Lerp(shakeAmount, 0, Time.deltaTime * shakeLerpAmount);
 
+    }
+
+    public void shake(float magnitude)
+    {
+        shakeAmount += magnitude;
     }
 }
