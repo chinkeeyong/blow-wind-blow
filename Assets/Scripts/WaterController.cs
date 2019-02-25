@@ -14,7 +14,7 @@ public class WaterController : MonoBehaviour
     public bool isMoving;
 
     //Wave height and speed
-    public float scale = 0.25f;
+    public float scale = 0.1f;
     public float speed = 1.0f;
     //The width between the waves
     public float waveDistance = 1f;
