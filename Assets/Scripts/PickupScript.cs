@@ -5,18 +5,12 @@ using UnityEngine;
 public class PickupScript : MonoBehaviour
 {	
 
-	public int northCount;
-	public int southCount;
-	public int eastCount;
-	public int westCount;
+	public int scoreCount; //1 = North, 2 = South, 3 = East, 4 = West
 	
     // Start is called before the first frame update
     void Start()
     {
-		northCount = 0;
-		southCount = 0;
-		eastCount = 0;
-		westCount = 0;        
+		scoreCount = 0;    
     }
 
     // Update is called once per frame
@@ -31,31 +25,19 @@ public class PickupScript : MonoBehaviour
     {
 		if(other.gameObject.CompareTag("PickupNorth")){
 			other.gameObject.SetActive(false);
-			northCount += 1;
-			southCount = 0;
-			eastCount = 0;
-			westCount = 0;
+			scoreCount = 1;
 		}
 		else if(other.gameObject.CompareTag("PickupSouth")){
 			other.gameObject.SetActive(false);
-			northCount = 0;
-			southCount += 1;
-			eastCount = 0;
-			westCount = 0;
+			scoreCount = 2;			
 		}
 		else if(other.gameObject.CompareTag("PickupEast")){
 			other.gameObject.SetActive(false);
-			northCount = 0;
-			southCount = 0;
-			eastCount += 1;
-			westCount = 0;
+			scoreCount = 3;			
 		}
 		else if(other.gameObject.CompareTag("PickupWest")){
 			other.gameObject.SetActive(false);
-			northCount = 0;
-			southCount = 0;
-			eastCount = 0;
-			westCount += 1;
+			scoreCount = 4;			
 		}
     }
 }
