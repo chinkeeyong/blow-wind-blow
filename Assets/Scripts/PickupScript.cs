@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PickupScript : MonoBehaviour
 {	
-
 	public int scoreCount; //1 = North, 2 = South, 3 = East, 4 = West
 	
     // Start is called before the first frame update
@@ -38,6 +37,19 @@ public class PickupScript : MonoBehaviour
 		else if(other.gameObject.CompareTag("PickupWest")){
 			other.gameObject.SetActive(false);
 			scoreCount = 4;			
+		}
+		
+		
+		if(other.gameObject.CompareTag("Flag")){
+			if(scoreCount == 1){
+				other.gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+			} else if (scoreCount == 2) {
+				other.gameObject.GetComponent<Renderer>().material.color = Color.red;
+			} else if (scoreCount == 3) {
+				other.gameObject.GetComponent<Renderer>().material.color = Color.magenta;				
+			} else if (scoreCount == 4) {
+				other.gameObject.GetComponent<Renderer>().material.color = Color.green;				
+			}
 		}
     }
 }
