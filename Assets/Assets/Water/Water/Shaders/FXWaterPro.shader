@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 // A hacked variant of FXWaterPro.shader from the Unity Standard Assets. This removes the redundant WaveSpeed property since we are modifying it via script instead
@@ -6,7 +8,7 @@ Shader "FX/Water" {
 Properties {
 	_WaveScale ("Wave scale", Range (0.02,0.15)) = 0.063
 	_ReflDistort ("Reflection distort", Range (0,1.5)) = 0.44
-	_RefrDistort ("Refraction distort", Range (0,1.5)) = 0.40
+	_RefrDistort ("Refraction distort", Range (0,10)) = 0.40
 	_RefrColor ("Refraction color", COLOR)  = ( .34, .85, .92, 1)
 	[NoScaleOffset] _Fresnel ("Fresnel (A) ", 2D) = "gray" {}
 	[NoScaleOffset] _BumpMap ("Normalmap ", 2D) = "bump" {}

@@ -17,6 +17,10 @@ public class Wind : MonoBehaviour
     public float clothExternalAccelMultiplier;
     public float clothRandomAccelMultiplier;
     public Vector4 stationaryWaveSpeed;
+    public float wave1DispMagnitude;
+    public float wave2DispMagnitude;
+    public float waveDisplacementZeroOffset;
+    public float waveLerpAmount;
 
     SerialPort sp;
 
@@ -31,9 +35,14 @@ public class Wind : MonoBehaviour
         // Make an array of all Cloth objects that can be blown by wind
         arrayOfCloths = (Cloth[])GameObject.FindObjectsOfType(typeof(Cloth));
 
-        sp = new SerialPort("COM3", 9600);
-        sp.Open();
-        sp.ReadTimeout = 1;
+        if (usingArduinoInput)
+        {
+            sp = new SerialPort("COM3", 9600);
+            sp.Open();
+            sp.ReadTimeout = 1;
+        }
+
+        UnityStandardAssets.Water.Water.waveSpeed = stationaryWaveSpeed;
     }
 
     void Update()
@@ -85,7 +94,14 @@ public class Wind : MonoBehaviour
 
         // Apply wind force to the sea water script
 
-        //UnityStandardAssets.Water.Water.waveSpeed = stationaryWaveSpeed /*+ new Vector4(-inputHorizontal * 10, -inputVertical * 10, inputHorizontal * 10, inputVertical * 10)*/ ;
+        float xDistanceFromStationaryWaveSpeed = Mathf.Abs(UnityStandardAssets.Water.Water.waveSpeed.x - stationaryWaveSpeed.x) + waveDisplacementZeroOffset;
+        float yDistanceFromStationaryWaveSpeed = Mathf.Abs(UnityStandardAssets.Water.Water.waveSpeed.y - stationaryWaveSpeed.y) + waveDisplacementZeroOffset;
+        float Wave1Displacement = -wave1DispMagnitude / xDistanceFromStationaryWaveSpeed;
+        float Wave2Displacement = -wave2DispMagnitude / yDistanceFromStationaryWaveSpeed;
+        Vector4 targetWaveSpeed = UnityStandardAssets.Water.Water.waveSpeed + 
+            new Vector4(inputHorizontal * Wave1Displacement, inputVertical * Wave1Displacement, inputHorizontal * Wave2Displacement, inputVertical * Wave2Displacement);
+        UnityStandardAssets.Water.Water.waveSpeed = Vector4.Lerp(UnityStandardAssets.Water.Water.waveSpeed, targetWaveSpeed, waveLerpAmount * Time.deltaTime);
+        print(UnityStandardAssets.Water.Water.waveSpeed.x + ", " + UnityStandardAssets.Water.Water.waveSpeed.y);
 
     }
 }
