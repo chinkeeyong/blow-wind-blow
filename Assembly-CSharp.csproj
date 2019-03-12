@@ -61,8 +61,10 @@
      <Compile Include="Assets\Assets\Water\Water\Scripts\Water.cs" />
      <Compile Include="Assets\Assets\Water\Water\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Assets\Water\Water\Scripts\WaterTile.cs" />
+     <Compile Include="Assets\New folder\cutsceneTrigger.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\EndlessWaterSquare.cs" />
+     <Compile Include="Assets\Scripts\moveTest.cs" />
      <Compile Include="Assets\Scripts\PickupScript.cs" />
      <Compile Include="Assets\Scripts\PlayerShipMovement.cs" />
      <Compile Include="Assets\Scripts\WaterController.cs" />
