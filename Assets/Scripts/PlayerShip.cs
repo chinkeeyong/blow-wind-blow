@@ -10,6 +10,15 @@ using UnityEngine.UI;
 
 public class PlayerShip : MonoBehaviour
 {
+    // Camera
+
+    public CameraFollow camerafollow;
+
+    // Rigidbody
+
+    private Rigidbody rb;
+
+    // Movement
 
     public float forwardSpeed;
     public float turnLerpAmount;
@@ -19,41 +28,73 @@ public class PlayerShip : MonoBehaviour
     public float zTiltMagnitude;
     public float zTiltLerpAmount;
     public float zTiltMaximum;
-    public CameraFollow camerafollow;
+
+    // Health
+
     public Text healthText;
     public int maxHealth;
     public float healthRegenPerSecond;
+
+    private int health;
+    private float timeToNextHealth;
+
+    // Collision with Terrain
+
     public float collisionScreenShake;
     public float collisionBounceMagnitude;
     public int collisionDamageBase;
     public int collisionDamageMultiplier;
 
-    private int terrainLayer;
-    private int health;
-    private float timeToNextHealth;
-
-    private Rigidbody rb;
+    private static readonly int terrainLayer = 9;
 
     void Start()
     {
 
         rb = GetComponent<Rigidbody>();
         health = maxHealth;
-        terrainLayer = 9;
 
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-
         MoveShip();
-        RegenHealth();
+    }
+
+    private void Update()
+    {
+        if (!GamePauser.paused)
+        {
+            RegenHealth();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        HandlePickups(other);
+        HandleReachingIslands(other);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Did we collide with terrain?
+        if (collision.gameObject.layer == terrainLayer) {
+
+            // Deal damage scaling with velocity
+            int collisionDamage = collisionDamageBase + Mathf.RoundToInt(rb.velocity.magnitude * collisionDamageMultiplier);
+            TakeDamage(collisionDamage);
+        
+            // Shake camera
+            camerafollow.shake(collisionDamage * collisionScreenShake);
+
+            // Bounce away from impact
+            rb.AddForce(collision.impulse * collisionBounceMagnitude);
+        }
     }
 
     private void MoveShip()
     {
         // Apply input movement to the rigidbody
-        rb.AddForce(Wind.velocity * forwardSpeed);
+        rb.AddForce(Wind.velocity * forwardSpeed * Time.deltaTime);
 
         // While moving, turn toward the target rotation and tilt left or right
         if (rb.velocity.magnitude > 0.001F)
@@ -104,33 +145,22 @@ public class PlayerShip : MonoBehaviour
         transform.Rotate(Vector3.right * yDelta * xTiltMagnitude * Time.deltaTime * rb.velocity.magnitude);
     }
 
-    private void UpdateHealthText()
-    {
-        healthText.text = "Health: " + health;
-    }
-
     private void RegenHealth()
     {
         timeToNextHealth -= Time.deltaTime;
         if (timeToNextHealth <= 0)
         {
-            heal(1);
+            Heal(1);
             timeToNextHealth = 1 / healthRegenPerSecond;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void UpdateHealthText()
     {
-        if (collision.gameObject.layer == terrainLayer)
-        {
-            camerafollow.shake(rb.velocity.magnitude * collisionScreenShake);
-            int collisionDamage = collisionDamageBase + Mathf.RoundToInt(rb.velocity.magnitude * collisionDamageMultiplier);
-            takeDamage(collisionDamage);
-            rb.AddForce(collision.impulse * collisionBounceMagnitude);
-        }
+        healthText.text = "Health: " + health;
     }
 
-    private void heal(int healing)
+    private void Heal(int healing)
     {
         health += healing;
         if (health > maxHealth)
@@ -140,7 +170,7 @@ public class PlayerShip : MonoBehaviour
         UpdateHealthText();
     }
 
-    private void takeDamage(int damage)
+    private void TakeDamage(int damage)
     {
         if (health >= maxHealth) // Protection from 1 hit KO
         {
@@ -159,5 +189,59 @@ public class PlayerShip : MonoBehaviour
             }
         }
         UpdateHealthText();
+    }
+
+    private void HandlePickups(Collider pickup)
+    {
+        if (pickup.gameObject.CompareTag("PickupNorth"))
+        {
+            pickup.gameObject.SetActive(false);
+            Wind.SetPrevailingWind(1);
+        }
+        else if (pickup.gameObject.CompareTag("PickupSouth"))
+        {
+            pickup.gameObject.SetActive(false);
+            Wind.SetPrevailingWind(2);
+        }
+        else if (pickup.gameObject.CompareTag("PickupEast"))
+        {
+            pickup.gameObject.SetActive(false);
+            Wind.SetPrevailingWind(3);
+        }
+        else if (pickup.gameObject.CompareTag("PickupWest"))
+        {
+            pickup.gameObject.SetActive(false);
+            Wind.SetPrevailingWind(4);
+        }
+    }
+
+    private void HandleReachingIslands(Collider island)
+    {
+        if (island.gameObject.CompareTag("Flag"))
+        {
+            print("island reached");
+            switch (Wind.prevailingWind)
+            {
+                case 1:
+                    island.gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+                    break;
+
+                case 2:
+                    island.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+
+                case 3:
+                    island.gameObject.GetComponent<Renderer>().material.color = Color.magenta;
+                    break;
+
+                case 4:
+                    island.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                    break;
+
+                default:
+                    island.gameObject.GetComponent<Renderer>().material.color = Color.white;
+                    break;
+            }
+        }
     }
 }

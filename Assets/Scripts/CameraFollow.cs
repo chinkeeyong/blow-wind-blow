@@ -16,10 +16,12 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-
-        transform.position = target.transform.position + new Vector3(OffsetX, OffsetY, OffsetZ);
-        transform.eulerAngles = new Vector3(LookAngle + Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount));
-        shakeAmount = Mathf.Lerp(shakeAmount, 0, Time.deltaTime * shakeLerpAmount);
+        if (!GamePauser.paused)
+        {
+            transform.position = target.transform.position + new Vector3(OffsetX, OffsetY, OffsetZ);
+            transform.eulerAngles = new Vector3(LookAngle + Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount), Random.Range(-shakeAmount, shakeAmount));
+            shakeAmount = Mathf.Lerp(shakeAmount, 0, Time.deltaTime * shakeLerpAmount);
+        }
 
     }
 
