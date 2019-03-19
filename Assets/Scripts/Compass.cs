@@ -14,7 +14,6 @@ public class Compass : MonoBehaviour
     public float fadeSpeed;
     public float fadeOutDistance;
     public float metersPerUnityUnit;
-    private bool fading;
     
     void Update()
     {

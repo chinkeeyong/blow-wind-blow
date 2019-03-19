@@ -14,7 +14,7 @@ public class GamePauser : MonoBehaviour
         originalTimeScale = Time.timeScale;
     }
 
-    /*private void Update()
+    private void Update()
     {
         if (Input.GetKeyUp("escape"))
         {
@@ -26,7 +26,7 @@ public class GamePauser : MonoBehaviour
                 Resume();
             }
         }
-    }*/
+    }
 
     public static void Pause()
     {

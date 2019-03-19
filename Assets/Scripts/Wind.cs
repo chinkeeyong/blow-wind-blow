@@ -79,9 +79,10 @@ public class Wind : MonoBehaviour
 
     private void Update()
     {
+        GetInput();
+
         if (!GamePauser.paused)
         {
-            GetInput();
             AdjustWorldLights();
         }
     }
@@ -105,6 +106,7 @@ public class Wind : MonoBehaviour
                 }
                 catch
                 {
+
                     direction = 0;
                 }
                 switch (direction)
@@ -125,9 +127,9 @@ public class Wind : MonoBehaviour
         }
         else
         {
-            inputHorizontal = Input.GetAxis("Horizontal");
+            inputHorizontal = Input.GetAxisRaw("Horizontal");
         }
-        inputVertical = Input.GetAxis("Vertical");
+        inputVertical = Input.GetAxisRaw("Vertical");
 
         velocity = new Vector3(inputHorizontal, 0.0f, inputVertical);
     }
@@ -166,7 +168,7 @@ public class Wind : MonoBehaviour
         Vector4 targetWaveSpeed = UnityStandardAssets.Water.Water.waveSpeed +
             new Vector4(inputHorizontal * Wave1Displacement, inputVertical * Wave1Displacement, inputHorizontal * Wave2Displacement, inputVertical * Wave2Displacement);
         UnityStandardAssets.Water.Water.waveSpeed = Vector4.Lerp(UnityStandardAssets.Water.Water.waveSpeed, targetWaveSpeed, waveLerpAmount * Time.deltaTime);
-        print(UnityStandardAssets.Water.Water.waveSpeed.x + ", " + UnityStandardAssets.Water.Water.waveSpeed.y);
+        //print(UnityStandardAssets.Water.Water.waveSpeed.x + ", " + UnityStandardAssets.Water.Water.waveSpeed.y);
     }
 
     private void AdjustWorldLights()

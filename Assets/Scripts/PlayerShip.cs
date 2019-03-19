@@ -219,7 +219,6 @@ public class PlayerShip : MonoBehaviour
     {
         if (island.gameObject.CompareTag("Flag"))
         {
-            print("island reached");
             switch (Wind.prevailingWind)
             {
                 case 1:
@@ -242,6 +241,8 @@ public class PlayerShip : MonoBehaviour
                     island.gameObject.GetComponent<Renderer>().material.color = Color.white;
                     break;
             }
+            island.enabled = false;
+            Cutscene.Show();
         }
     }
 }
