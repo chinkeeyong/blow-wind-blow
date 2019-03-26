@@ -7,14 +7,23 @@ public class Compass : MonoBehaviour
 {
 
     public GameObject player;
-    public GameObject target;
+    public GameObject[] targetsInEditor;
     public GameObject mainCamera;
     public Graphic compassGraphic;
     public Text distanceText;
     public float fadeSpeed;
     public float fadeOutDistance;
     public float metersPerUnityUnit;
-    
+
+    public static GameObject[] targets;
+    public static int currentTargetNo;
+
+    private void Start()
+    {
+        targets = targetsInEditor;
+        currentTargetNo = 0;
+    }
+
     void Update()
     {
         if (!GamePauser.paused)
@@ -23,7 +32,7 @@ public class Compass : MonoBehaviour
             transform.position = player.transform.position;
 
             // Update distance to target
-            int distance = Mathf.RoundToInt(Vector3.Distance(transform.position, target.transform.position) * metersPerUnityUnit);
+            int distance = Mathf.RoundToInt(Vector3.Distance(transform.position, targets[currentTargetNo].transform.position) * metersPerUnityUnit);
 
             // Fade out if we are closer than minimum distance
             if (distance < fadeOutDistance)
@@ -51,7 +60,7 @@ public class Compass : MonoBehaviour
             }
 
             // Rotate compass
-            transform.LookAt(target.transform);
+            transform.LookAt(targets[currentTargetNo].transform);
             transform.Rotate(90F, 0F, 0F);
             distanceText.transform.LookAt(mainCamera.transform, mainCamera.transform.up);
             distanceText.transform.Rotate(0F, 180F, 0F);

@@ -14,6 +14,10 @@ public class PlayerShip : MonoBehaviour
 
     public CameraFollow camerafollow;
 
+    // Compass
+
+    public Compass compass;
+
     // Rigidbody
 
     private Rigidbody rb;
@@ -217,32 +221,35 @@ public class PlayerShip : MonoBehaviour
 
     private void HandleReachingIslands(Collider island)
     {
-        if (island.gameObject.CompareTag("Flag"))
-        {
+        if (island.gameObject == Compass.targets[Compass.currentTargetNo]) {
             switch (Wind.prevailingWind)
             {
                 case 1:
-                    island.gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
                     break;
 
                 case 2:
-                    island.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
                     break;
 
                 case 3:
-                    island.gameObject.GetComponent<Renderer>().material.color = Color.magenta;
+                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
                     break;
 
                 case 4:
-                    island.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
                     break;
 
                 default:
-                    island.gameObject.GetComponent<Renderer>().material.color = Color.white;
+                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
                     break;
             }
             island.enabled = false;
             Cutscene.Show();
+            Wind.SetPrevailingWind(0);
+            if(!(Compass.currentTargetNo >= Compass.targets.Length)) {
+                Compass.currentTargetNo++;
+            }
         }
     }
 }

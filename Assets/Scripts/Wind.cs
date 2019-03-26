@@ -115,16 +115,75 @@ public class Wind : MonoBehaviour
                 }
                 switch (direction)
                 {
-                    case 1:
-                        inputHorizontal = 1;
+
+                    case -1: // Two winds blowing at odds
+                        inputHorizontal = 0;
+                        inputVertical = 0;
                         break;
 
-                    case 2:
+                    case 2: // Only East blowing
                         inputHorizontal = -1;
+                        inputVertical = 0;
+                        break;
+
+                    case 3:
+                        inputHorizontal = 1;
+                        inputVertical = 0;
+                        break;
+
+                    case 5:
+                        inputHorizontal = 0;
+                        inputVertical = -1;
+                        break;
+
+                    case 6:
+                        inputHorizontal = -1;
+                        inputVertical = -1;
+                        break;
+
+                    case 7:
+                        inputHorizontal = 0;
+                        inputVertical = 1;
+                        break;
+
+                    case 14:
+                        inputHorizontal = -1;
+                        inputVertical = 1;
+                        break;
+
+                    case 15:
+                        inputHorizontal = 1;
+                        inputVertical = -1;
+                        break;
+
+                    case 21:
+                        inputHorizontal = 1;
+                        inputVertical = 1;
+                        break;
+
+                    case 30:
+                        inputHorizontal = 0;
+                        inputVertical = -1;
+                        break;
+
+                    case 42:
+                        inputHorizontal = 0;
+                        inputVertical = 1;
+                        break;
+
+                    case 70:
+                        inputHorizontal = -1;
+                        inputVertical = 0;
+                        break;
+
+                    case 105:
+                        inputHorizontal = 1;
+                        inputVertical = 0;
                         break;
 
                     default:
                         inputHorizontal = 0;
+                        inputVertical = 0;
                         break;
                 }
             }
@@ -132,8 +191,8 @@ public class Wind : MonoBehaviour
         else
         {
             inputHorizontal = Input.GetAxisRaw("Horizontal");
+            inputVertical = Input.GetAxisRaw("Vertical");
         }
-        inputVertical = Input.GetAxisRaw("Vertical");
 
         velocity = new Vector3(inputHorizontal, 0.0f, inputVertical);
     }
