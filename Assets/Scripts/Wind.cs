@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.IO.Ports;
 
@@ -8,7 +9,7 @@ using System.IO.Ports;
  * This script handles the wind force in the game. This means it is responsible for handling all player input.
  * The wind force is the Wind.velocity variable which other scripts can read.
  * This script additionally handles all cloth flapping and wave movement as a result of wind,
- * and keeps track of the prevailing wind.
+ * and keeps track of the prevailing wind and associated music/light changes.
 */
 
 public class Wind : MonoBehaviour
@@ -43,6 +44,8 @@ public class Wind : MonoBehaviour
 
     // Prevailing wind
 
+    public static int prevailingWind = 0; // 0 = None; 1 = North; 2 = South; 3 = East; 4 = West
+
     public static Text WindText;
     public Light defaultLight;
     public Light northLight;
@@ -55,7 +58,7 @@ public class Wind : MonoBehaviour
 
     public Text WindTextInEditor; // We need this because unity Editor doesn't expose public static variables
 
-    public static int prevailingWind = 0; // 0 = None; 1 = North; 2 = South; 3 = East; 4 = West
+    public AudioMixer musicMixer;
 
     void Start()
     {
@@ -84,6 +87,7 @@ public class Wind : MonoBehaviour
         if (!GamePauser.paused)
         {
             AdjustWorldLights();
+            AdjustMusic();
         }
     }
 
@@ -215,6 +219,36 @@ public class Wind : MonoBehaviour
                 westLight.intensity = Mathf.Lerp(westLight.intensity, 0F, Time.deltaTime);
                 break;
         }
+    }
+
+    private void AdjustMusic()
+    {
+        AudioMixerSnapshot[] snapshots = new AudioMixerSnapshot[1];
+        float[] weights = new float[1];
+        weights[0] = 1F;
+        switch (prevailingWind)
+        {
+            case 1:
+                snapshots[0] = musicMixer.FindSnapshot("North");
+                break;
+
+            case 2:
+                snapshots[0] = musicMixer.FindSnapshot("South");
+                break;
+
+            case 3:
+                snapshots[0] = musicMixer.FindSnapshot("East");
+                break;
+
+            case 4:
+                snapshots[0] = musicMixer.FindSnapshot("West");
+                break;
+
+            default:
+                snapshots[0] = musicMixer.FindSnapshot("Default");
+                break;
+        }
+        musicMixer.TransitionToSnapshots(snapshots, weights, 0.5F);
     }
 
     public static void SetPrevailingWind(int wind)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1628231675552262992}
   - component: {fileID: 1628231675552262993}
   - component: {fileID: 1628231675552262994}
-  - component: {fileID: 1628231675552262999}
+  - component: {fileID: 6699569556208241567}
   m_Layer: 0
   m_Name: banner
   m_TagString: Flag
@@ -1288,7 +1288,7 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: -0.0064209104, z: -0.000044584274}
     m_Extent: {x: 0.005340627, y: 0.0063026557, z: 0.00005523852}
   m_DirtyAABB: 0
---- !u!136 &1628231675552262999
+--- !u!136 &6699569556208241567
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1298,10 +1298,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.05
-  m_Height: 0.3
+  m_Radius: 0.15
+  m_Height: 0.01
   m_Direction: 1
-  m_Center: {x: -0.005, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1628231675908877219
 GameObject:
   m_ObjectHideFlags: 0
