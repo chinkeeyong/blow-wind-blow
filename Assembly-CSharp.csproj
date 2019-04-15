@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Compass.cs" />
     <Compile Include="Assets\Scripts\Cutscene.cs" />
     <Compile Include="Assets\Scripts\EndlessWaterSquare.cs" />
+    <Compile Include="Assets\Scripts\FollowShip.cs" />
     <Compile Include="Assets\Scripts\GamePauser.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Music.cs" />
@@ -87,6 +88,7 @@
     <None Include="Assets\ProjectSettings\ProjectVersion.txt" />
     <None Include="Assets\Prefab\Water\Water4\Shaders\WaterInclude.cginc" />
     <None Include="Assets\Prefab\Water\Water4\Shaders\FXWater4Advanced.shader" />
+    <None Include="Assets\Sounds\sfx 190415\credits.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Kee Yong/Documents/blow-wind-blow/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

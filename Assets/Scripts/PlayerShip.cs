@@ -42,12 +42,21 @@ public class PlayerShip : MonoBehaviour
     private int health;
     private float timeToNextHealth;
 
+    // Pickup Sounds
+
+    public AudioSource northJingle;
+    public AudioSource southJingle;
+    public AudioSource eastJingle;
+    public AudioSource westJingle;
+
     // Collision with Terrain
 
     public float collisionScreenShake;
     public float collisionBounceMagnitude;
     public int collisionDamageBase;
     public int collisionDamageMultiplier;
+
+    public AudioSource crashSound;
 
     private static readonly int terrainLayer = 9;
 
@@ -92,7 +101,11 @@ public class PlayerShip : MonoBehaviour
 
             // Bounce away from impact
             rb.AddForce(collision.impulse * collisionBounceMagnitude);
-        }
+
+            // Play sound
+            crashSound.pitch = Random.Range(0.4F, 0.7F);
+            crashSound.Play();
+}
     }
 
     private void MoveShip()
@@ -200,22 +213,38 @@ public class PlayerShip : MonoBehaviour
         if (pickup.gameObject.CompareTag("PickupNorth"))
         {
             pickup.gameObject.SetActive(false);
-            Wind.SetPrevailingWind(1);
+            if (Wind.prevailingWind != 1)
+            {
+                Wind.SetPrevailingWind(1);
+                northJingle.Play();
+            }
         }
         else if (pickup.gameObject.CompareTag("PickupSouth"))
         {
             pickup.gameObject.SetActive(false);
-            Wind.SetPrevailingWind(2);
+            if (Wind.prevailingWind != 2)
+            {
+                Wind.SetPrevailingWind(2);
+                southJingle.Play();
+            }
         }
         else if (pickup.gameObject.CompareTag("PickupEast"))
         {
             pickup.gameObject.SetActive(false);
-            Wind.SetPrevailingWind(3);
+            if (Wind.prevailingWind != 3)
+            {
+                Wind.SetPrevailingWind(3);
+                eastJingle.Play();
+            }
         }
         else if (pickup.gameObject.CompareTag("PickupWest"))
         {
             pickup.gameObject.SetActive(false);
-            Wind.SetPrevailingWind(4);
+            if (Wind.prevailingWind != 4)
+            {
+                Wind.SetPrevailingWind(4);
+                westJingle.Play();
+            }
         }
     }
 

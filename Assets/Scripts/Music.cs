@@ -55,7 +55,7 @@ public class Music : MonoBehaviour
 
     void Start()
     {
-        nextEventTime = AudioSettings.dspTime + 2.0f;
+        nextEventTime = AudioSettings.dspTime;
         running = true;
     }
 
@@ -68,7 +68,7 @@ public class Music : MonoBehaviour
 
         double time = AudioSettings.dspTime;
 
-        if (time + 1.0f > nextEventTime)
+        if (time + 2.0f > nextEventTime)
         {
             // We are now approx. 1 second before the time at which the sound should play,
             // so we will schedule it now in order for the system to have enough time

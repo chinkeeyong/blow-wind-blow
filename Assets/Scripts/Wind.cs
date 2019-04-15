@@ -46,19 +46,31 @@ public class Wind : MonoBehaviour
 
     public static int prevailingWind = 0; // 0 = None; 1 = North; 2 = South; 3 = East; 4 = West
 
+    private int lastPrevailingWind = 0;
+
     public static Text WindText;
+
+    public Text WindTextInEditor; // We need this because unity Editor doesn't expose public static variables
+
     public Light defaultLight;
     public Light northLight;
     public Light southLight;
     public Light eastLight;
     public Light westLight;
+
+    public Animator northAnimator;
+    public Animator southAnimator;
+    public Animator eastAnimator;
+    public Animator westAnimator;
+
     public float defaultLightIntensity;
     public float baseLightIntensity;
     public float windLightIntensity;
 
-    public Text WindTextInEditor; // We need this because unity Editor doesn't expose public static variables
+    // Music and audio
 
     public AudioMixer musicMixer;
+    public AudioSource waveSound;
 
     void Start()
     {
@@ -86,8 +98,16 @@ public class Wind : MonoBehaviour
 
         if (!GamePauser.paused)
         {
+
             AdjustWorldLights();
             AdjustMusic();
+            AdjustWaveVolume();
+
+            if (lastPrevailingWind != prevailingWind)
+            {
+                lastPrevailingWind = prevailingWind;
+                AdjustHeadAnimations();
+            }
         }
     }
 
@@ -280,6 +300,47 @@ public class Wind : MonoBehaviour
         }
     }
 
+    private void AdjustHeadAnimations()
+    {
+        switch (prevailingWind)
+        {
+            case 1:
+                northAnimator.Play("Glowing", 0, 0F);
+                southAnimator.Play("Static", 0, 0F);
+                eastAnimator.Play("Static", 0, 0F);
+                westAnimator.Play("Static", 0, 0F);
+                break;
+
+            case 2:
+                northAnimator.Play("Static", 0, 0F);
+                southAnimator.Play("Glowing", 0, 0F);
+                eastAnimator.Play("Static", 0, 0F);
+                westAnimator.Play("Static", 0, 0F);
+                break;
+
+            case 3:
+                northAnimator.Play("Static", 0, 0F);
+                southAnimator.Play("Static", 0, 0F);
+                eastAnimator.Play("Glowing", 0, 0F);
+                westAnimator.Play("Static", 0, 0F);
+                break;
+
+            case 4:
+                northAnimator.Play("Static", 0, 0F);
+                southAnimator.Play("Static", 0, 0F);
+                eastAnimator.Play("Static", 0, 0F);
+                westAnimator.Play("Glowing", 0, 0F);
+                break;
+
+            default:
+                northAnimator.Play("Static", 0, 0F);
+                southAnimator.Play("Static", 0, 0F);
+                eastAnimator.Play("Static", 0, 0F);
+                westAnimator.Play("Static", 0, 0F);
+                break;
+        }
+    }
+
     private void AdjustMusic()
     {
         AudioMixerSnapshot[] snapshots = new AudioMixerSnapshot[1];
@@ -308,6 +369,12 @@ public class Wind : MonoBehaviour
                 break;
         }
         musicMixer.TransitionToSnapshots(snapshots, weights, 0.5F);
+    }
+
+    private void AdjustWaveVolume()
+    {
+        float newVolume = Mathf.Lerp(waveSound.volume, velocity.magnitude / 2, Time.deltaTime / 2);
+        waveSound.volume = newVolume;
     }
 
     public static void SetPrevailingWind(int wind)
