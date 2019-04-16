@@ -255,26 +255,30 @@ public class PlayerShip : MonoBehaviour
             {
                 case 1:
                     island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
+                    Cutscene.Show(11);
                     break;
 
                 case 2:
                     island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+                    Cutscene.Show(12);
                     break;
 
                 case 3:
                     island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
+                    Cutscene.Show(13);
                     break;
 
                 case 4:
                     island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+                    Cutscene.Show(14);
                     break;
 
                 default:
                     island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+                    Cutscene.Show(11);
                     break;
             }
             island.enabled = false;
-            Cutscene.Show();
             Wind.SetPrevailingWind(0);
             if(!(Compass.currentTargetNo >= Compass.targets.Length)) {
                 Compass.currentTargetNo++;
