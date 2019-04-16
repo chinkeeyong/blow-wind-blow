@@ -96,8 +96,6 @@ public class Cutscene : MonoBehaviour
                     Hide();
                 }
             }
-        } else
-        {
         }
     }
 

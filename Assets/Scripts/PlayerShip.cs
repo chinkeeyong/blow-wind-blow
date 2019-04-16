@@ -278,6 +278,7 @@ public class PlayerShip : MonoBehaviour
                     Cutscene.Show(11);
                     break;
             }
+            rb.velocity = new Vector3(0F, 0F, 0F);
             island.enabled = false;
             Wind.SetPrevailingWind(0);
             if(!(Compass.currentTargetNo >= Compass.targets.Length)) {

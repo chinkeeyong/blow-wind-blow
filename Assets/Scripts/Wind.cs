@@ -58,6 +58,13 @@ public class Wind : MonoBehaviour
     public Light eastLight;
     public Light westLight;
 
+    public Material waterMaterial;
+    public Color defaultWater;
+    public Color northWater;
+    public Color southWater;
+    public Color eastWater;
+    public Color westWater;
+
     public Animator northAnimator;
     public Animator southAnimator;
     public Animator eastAnimator;
@@ -90,18 +97,21 @@ public class Wind : MonoBehaviour
 
         // Set the public static WindText
         WindText = WindTextInEditor;
+
+        // Set the default water color
+        waterMaterial.SetColor("_RefrColor", defaultWater);
     }
 
     private void Update()
     {
         GetInput();
+        AdjustMusic();
+        AdjustWaveVolume();
 
-        if (!GamePauser.paused)
+        if (!Cutscene.active)
         {
 
             AdjustWorldLights();
-            AdjustMusic();
-            AdjustWaveVolume();
 
             if (lastPrevailingWind != prevailingWind)
             {
@@ -264,6 +274,7 @@ public class Wind : MonoBehaviour
                 southLight.intensity = Mathf.Lerp(southLight.intensity, 0F, Time.deltaTime);
                 eastLight.intensity = Mathf.Lerp(eastLight.intensity, 0F, Time.deltaTime);
                 westLight.intensity = Mathf.Lerp(westLight.intensity, 0F, Time.deltaTime);
+                waterMaterial.SetColor("_RefrColor", Color.Lerp(waterMaterial.GetColor("_RefrColor"), northWater, Time.deltaTime));
                 break;
 
             case 2:
@@ -272,6 +283,7 @@ public class Wind : MonoBehaviour
                 southLight.intensity = Mathf.Lerp(southLight.intensity, windLightIntensity, Time.deltaTime);
                 eastLight.intensity = Mathf.Lerp(eastLight.intensity, 0F, Time.deltaTime);
                 westLight.intensity = Mathf.Lerp(westLight.intensity, 0F, Time.deltaTime);
+                waterMaterial.SetColor("_RefrColor", Color.Lerp(waterMaterial.GetColor("_RefrColor"), southWater, Time.deltaTime));
                 break;
 
             case 3:
@@ -280,6 +292,7 @@ public class Wind : MonoBehaviour
                 southLight.intensity = Mathf.Lerp(southLight.intensity, 0F, Time.deltaTime);
                 eastLight.intensity = Mathf.Lerp(eastLight.intensity, windLightIntensity, Time.deltaTime);
                 westLight.intensity = Mathf.Lerp(westLight.intensity, 0F, Time.deltaTime);
+                waterMaterial.SetColor("_RefrColor", Color.Lerp(waterMaterial.GetColor("_RefrColor"), eastWater, Time.deltaTime));
                 break;
 
             case 4:
@@ -288,6 +301,7 @@ public class Wind : MonoBehaviour
                 southLight.intensity = Mathf.Lerp(southLight.intensity, 0F, Time.deltaTime);
                 eastLight.intensity = Mathf.Lerp(eastLight.intensity, 0F, Time.deltaTime);
                 westLight.intensity = Mathf.Lerp(westLight.intensity, windLightIntensity, Time.deltaTime);
+                waterMaterial.SetColor("_RefrColor", Color.Lerp(waterMaterial.GetColor("_RefrColor"), westWater, Time.deltaTime));
                 break;
 
             default:
@@ -296,6 +310,7 @@ public class Wind : MonoBehaviour
                 southLight.intensity = Mathf.Lerp(southLight.intensity, 0F, Time.deltaTime);
                 eastLight.intensity = Mathf.Lerp(eastLight.intensity, 0F, Time.deltaTime);
                 westLight.intensity = Mathf.Lerp(westLight.intensity, 0F, Time.deltaTime);
+                waterMaterial.SetColor("_RefrColor", Color.Lerp(waterMaterial.GetColor("_RefrColor"), defaultWater, Time.deltaTime));
                 break;
         }
     }
@@ -346,34 +361,61 @@ public class Wind : MonoBehaviour
         AudioMixerSnapshot[] snapshots = new AudioMixerSnapshot[1];
         float[] weights = new float[1];
         weights[0] = 1F;
-        switch (prevailingWind)
+        if (Cutscene.active)
         {
-            case 1:
-                snapshots[0] = musicMixer.FindSnapshot("North");
-                break;
+            switch (lastPrevailingWind)
+            {
+                case 1:
+                    snapshots[0] = musicMixer.FindSnapshot("North Win");
+                    break;
 
-            case 2:
-                snapshots[0] = musicMixer.FindSnapshot("South");
-                break;
+                case 2:
+                    snapshots[0] = musicMixer.FindSnapshot("South Win");
+                    break;
 
-            case 3:
-                snapshots[0] = musicMixer.FindSnapshot("East");
-                break;
+                case 3:
+                    snapshots[0] = musicMixer.FindSnapshot("East Win");
+                    break;
 
-            case 4:
-                snapshots[0] = musicMixer.FindSnapshot("West");
-                break;
+                case 4:
+                    snapshots[0] = musicMixer.FindSnapshot("West Win");
+                    break;
 
-            default:
-                snapshots[0] = musicMixer.FindSnapshot("Default");
-                break;
+                default:
+                    snapshots[0] = musicMixer.FindSnapshot("Default");
+                    break;
+            }
+        } else
+        {
+            switch (prevailingWind)
+            {
+                case 1:
+                    snapshots[0] = musicMixer.FindSnapshot("North");
+                    break;
+
+                case 2:
+                    snapshots[0] = musicMixer.FindSnapshot("South");
+                    break;
+
+                case 3:
+                    snapshots[0] = musicMixer.FindSnapshot("East");
+                    break;
+
+                case 4:
+                    snapshots[0] = musicMixer.FindSnapshot("West");
+                    break;
+
+                default:
+                    snapshots[0] = musicMixer.FindSnapshot("Default");
+                    break;
+            }
         }
         musicMixer.TransitionToSnapshots(snapshots, weights, 0.5F);
     }
 
     private void AdjustWaveVolume()
     {
-        float newVolume = Mathf.Lerp(waveSound.volume, velocity.magnitude / 2, Time.deltaTime / 2);
+        float newVolume = Mathf.Lerp(waveSound.volume, velocity.magnitude / 2, 0.01F);
         waveSound.volume = newVolume;
     }
 
