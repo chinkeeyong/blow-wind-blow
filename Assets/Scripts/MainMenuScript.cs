@@ -2,15 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO.Ports;
 using UnityEngine.SceneManagement;
 
 public class MainMenuScript : MonoBehaviour
 {
-    public Text subtitletext;
+    // Input and Arduino integration
+
+    public bool usingArduinoInput;
+    private SerialPort sp;
+
+    public Image background;
+
     private bool loading;
 
     void Start()
     {
+
+        if (usingArduinoInput)
+        {
+            sp = new SerialPort("COM3", 9600);
+            sp.Open();
+            sp.ReadTimeout = 1;
+        }
+
         loading = false;
     }
 
@@ -18,16 +33,42 @@ public class MainMenuScript : MonoBehaviour
     {
         if (loading)
         {
-            subtitletext.color = new Color(subtitletext.color.r, subtitletext.color.g, subtitletext.color.b, Mathf.PingPong(Time.time, 1));
-        } else
+            background.color = Color.black;
+        }
+        else
         {
-            if (Input.anyKey)
+            if (usingArduinoInput)
             {
-                loading = true;
-                subtitletext.text = "Loading...";
+                if (sp.IsOpen)
+                {
+                    int direction;
+                    try
+                    {
+                        direction = sp.ReadByte();
+                    }
+                    catch
+                    {
 
-                // Use a coroutine to load the Scene in the background
-                StartCoroutine(LoadYourAsyncScene());
+                        direction = 0;
+                    }
+                    if (direction == -2)
+                    {
+                        loading = true;
+
+                        // Use a coroutine to load the Scene in the background
+                        StartCoroutine(LoadYourAsyncScene());
+                    }
+                }
+            }
+            else
+            {
+                if (Input.anyKey)
+                {
+                    loading = true;
+
+                    // Use a coroutine to load the Scene in the background
+                    StartCoroutine(LoadYourAsyncScene());
+                }
             }
         }
     }

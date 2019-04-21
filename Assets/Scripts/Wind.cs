@@ -146,6 +146,11 @@ public class Wind : MonoBehaviour
                 switch (direction)
                 {
 
+                    case -2: // All winds blowing
+                        inputHorizontal = 0;
+                        inputVertical = 0;
+                        break;
+
                     case -1: // Two winds blowing at odds
                         inputHorizontal = 0;
                         inputVertical = 0;

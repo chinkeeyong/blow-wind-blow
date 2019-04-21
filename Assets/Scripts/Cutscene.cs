@@ -15,6 +15,8 @@ public class Cutscene : MonoBehaviour
     public Image eastWindImage;
     public Image westWindImage;
 
+    public Image blowToContinueSign;
+
     public Sprite mural0;
     public Sprite mural11;
     public Sprite mural12;
@@ -33,6 +35,8 @@ public class Cutscene : MonoBehaviour
     public static Image staticSouthWindImage;
     public static Image staticEastWindImage;
     public static Image staticWestWindImage;
+
+    public static Image staticBlowToContinueSign;
 
     public static Sprite staticMural0;
     public static Sprite staticMural11;
@@ -66,6 +70,8 @@ public class Cutscene : MonoBehaviour
         staticEastWindImage = eastWindImage;
         staticWestWindImage = westWindImage;
 
+        staticBlowToContinueSign = blowToContinueSign;
+
         staticMural0 = mural0;
         staticMural11 = mural11;
         staticMural12 = mural12;
@@ -73,6 +79,7 @@ public class Cutscene : MonoBehaviour
         staticMural14 = mural14;
 
         img.color = new Color(1F, 1F, 1F, 1F);
+        staticBlowToContinueSign.color = new Color(1F, 1F, 1F, 1F);
         staticNorthWindCutout.canvasRenderer.SetAlpha(0F);
         staticSouthWindCutout.canvasRenderer.SetAlpha(0F);
         staticEastWindCutout.canvasRenderer.SetAlpha(0F);
@@ -81,6 +88,7 @@ public class Cutscene : MonoBehaviour
         staticSouthWindImage.canvasRenderer.SetAlpha(0F);
         staticEastWindImage.canvasRenderer.SetAlpha(0F);
         staticWestWindImage.canvasRenderer.SetAlpha(0F);
+        staticBlowToContinueSign.canvasRenderer.SetAlpha(0F);
 
         Show(0);
     }
@@ -89,8 +97,18 @@ public class Cutscene : MonoBehaviour
     {
         if (active)
         {
+
             if (Time.realtimeSinceStartup > timePaused + timeUntilDismissable)
             {
+
+                if (staticBlowToContinueSign.canvasRenderer.GetAlpha() < 0.00001F)
+                {
+                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+                    {
+                        staticBlowToContinueSign.CrossFadeAlpha(1F, staticFadeDuration, true);
+                    }
+                }
+
                 if (Wind.velocity.magnitude > 0F)
                 {
                     Hide();
@@ -207,5 +225,6 @@ public class Cutscene : MonoBehaviour
         staticSouthWindImage.CrossFadeAlpha(1F, staticFadeDuration, true);
         staticEastWindImage.CrossFadeAlpha(1F, staticFadeDuration, true);
         staticWestWindImage.CrossFadeAlpha(1F, staticFadeDuration, true);
+        staticBlowToContinueSign.CrossFadeAlpha(0F, staticFadeDuration, true);
     }
 }
