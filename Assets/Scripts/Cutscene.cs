@@ -22,6 +22,14 @@ public class Cutscene : MonoBehaviour
     public Sprite mural12;
     public Sprite mural13;
     public Sprite mural14;
+    public Sprite mural21;
+    public Sprite mural22;
+    public Sprite mural23;
+    public Sprite mural24;
+    public Sprite mural31;
+    public Sprite mural32;
+    public Sprite mural33;
+    public Sprite mural34;
 
     public int frameWidth;
     public float fadeDuration;
@@ -43,6 +51,14 @@ public class Cutscene : MonoBehaviour
     public static Sprite staticMural12;
     public static Sprite staticMural13;
     public static Sprite staticMural14;
+    public static Sprite staticMural21;
+    public static Sprite staticMural22;
+    public static Sprite staticMural23;
+    public static Sprite staticMural24;
+    public static Sprite staticMural31;
+    public static Sprite staticMural32;
+    public static Sprite staticMural33;
+    public static Sprite staticMural34;
 
     public static int staticFrameWidth;
     public static float staticFadeDuration;
@@ -77,6 +93,14 @@ public class Cutscene : MonoBehaviour
         staticMural12 = mural12;
         staticMural13 = mural13;
         staticMural14 = mural14;
+        staticMural21 = mural21;
+        staticMural22 = mural22;
+        staticMural23 = mural23;
+        staticMural24 = mural24;
+        staticMural31 = mural31;
+        staticMural32 = mural32;
+        staticMural33 = mural33;
+        staticMural34 = mural34;
 
         img.color = new Color(1F, 1F, 1F, 1F);
         staticBlowToContinueSign.color = new Color(1F, 1F, 1F, 1F);
@@ -95,7 +119,7 @@ public class Cutscene : MonoBehaviour
     
     void Update()
     {
-        if (active)
+        if (active && Compass.currentTargetNo < 3)
         {
 
             if (Time.realtimeSinceStartup > timePaused + timeUntilDismissable)
@@ -122,6 +146,7 @@ public class Cutscene : MonoBehaviour
         GamePauser.Pause();
 
         float screenHeight;
+        float screenWidth;
         float heightRatio;
         float widthRatio;
         float newHeight;
@@ -193,6 +218,110 @@ public class Cutscene : MonoBehaviour
                 img.rectTransform.sizeDelta = new Vector2(newWidth, screenHeight);
                 // Play animation
                 animator.Play("Mural1");
+                break;
+
+            case 21: // Reached 2nd city as North
+                // Set the mural
+                img.sprite = staticMural21;
+                // Get ratio of screen height to mural height
+                screenHeight = Screen.height - (2 * staticFrameWidth);
+                heightRatio = screenHeight / img.mainTexture.height;
+                newWidth = img.mainTexture.width * heightRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(newWidth, screenHeight);
+                // Play animation
+                animator.Play("Mural2");
+                break;
+
+            case 22: // Reached 2nd city as South
+                // Set the mural
+                img.sprite = staticMural22;
+                // Get ratio of screen height to mural height
+                screenHeight = Screen.height - (2 * staticFrameWidth);
+                heightRatio = screenHeight / img.mainTexture.height;
+                newWidth = img.mainTexture.width * heightRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(newWidth, screenHeight);
+                // Play animation
+                animator.Play("Mural2");
+                break;
+
+            case 23: // Reached 2nd city as East
+                // Set the mural
+                img.sprite = staticMural23;
+                // Get ratio of screen height to mural height
+                screenHeight = Screen.height - (2 * staticFrameWidth);
+                heightRatio = screenHeight / img.mainTexture.height;
+                newWidth = img.mainTexture.width * heightRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(newWidth, screenHeight);
+                // Play animation
+                animator.Play("Mural2");
+                break;
+
+            case 24: // Reached 2nd city as West
+                // Set the mural
+                img.sprite = staticMural24;
+                // Get ratio of screen height to mural height
+                screenHeight = Screen.height - (2 * staticFrameWidth);
+                heightRatio = screenHeight / img.mainTexture.height;
+                newWidth = img.mainTexture.width * heightRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(newWidth, screenHeight);
+                // Play animation
+                animator.Play("Mural2");
+                break;
+
+            case 31: // Reached 3rd city as North
+                // Set the mural
+                img.sprite = staticMural31;
+                // Get ratio of screen width to mural width
+                screenWidth = Screen.width - (2 * staticFrameWidth);
+                widthRatio = screenWidth / img.mainTexture.width;
+                newHeight = img.mainTexture.height * widthRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(screenWidth, newHeight);
+                // Play animation
+                animator.Play("Mural3");
+                break;
+
+            case 32: // Reached 3rd city as South
+                // Set the mural
+                img.sprite = staticMural32;
+                // Get ratio of screen width to mural width
+                screenWidth = Screen.width - (2 * staticFrameWidth);
+                widthRatio = screenWidth / img.mainTexture.width;
+                newHeight = img.mainTexture.height * widthRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(screenWidth, newHeight);
+                // Play animation
+                animator.Play("Mural3");
+                break;
+
+            case 33: // Reached 3rd city as East
+                // Set the mural
+                img.sprite = staticMural33;
+                // Get ratio of screen width to mural width
+                screenWidth = Screen.width - (2 * staticFrameWidth);
+                widthRatio = screenWidth / img.mainTexture.width;
+                newHeight = img.mainTexture.height * widthRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(screenWidth, newHeight);
+                // Play animation
+                animator.Play("Mural3");
+                break;
+
+            case 34: // Reached 3rd city as West
+                // Set the mural
+                img.sprite = staticMural34;
+                // Get ratio of screen width to mural width
+                screenWidth = Screen.width - (2 * staticFrameWidth);
+                widthRatio = screenWidth / img.mainTexture.width;
+                newHeight = img.mainTexture.height * widthRatio;
+                // Scale entire image
+                img.rectTransform.sizeDelta = new Vector2(screenWidth, newHeight);
+                // Play animation
+                animator.Play("Mural3");
                 break;
 
             default:

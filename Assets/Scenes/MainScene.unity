@@ -19585,7 +19585,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2047, y: 648}
+  m_SizeDelta: {x: 1091.07, y: 3071.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2075978315
 MonoBehaviour:
@@ -19607,7 +19607,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8acda0aad96f4e74d943d8265b79f18e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19650,6 +19650,14 @@ MonoBehaviour:
   mural12: {fileID: 21300000, guid: 577d0218437037e4680e6cac6666cae8, type: 3}
   mural13: {fileID: 21300000, guid: b55f2343ef26ab54c90584200ca41729, type: 3}
   mural14: {fileID: 21300000, guid: 410ea494b0f4abf40bfef8b843ae2ffb, type: 3}
+  mural21: {fileID: 21300000, guid: 0039185033852844783f942b3c8c3615, type: 3}
+  mural22: {fileID: 21300000, guid: c9ac206eed9074a47b704ab85ec428f1, type: 3}
+  mural23: {fileID: 21300000, guid: bba9c2c341812a44eaef81c3f3c4df12, type: 3}
+  mural24: {fileID: 21300000, guid: 0cb2909f1f7bba94887e4a8c490f386d, type: 3}
+  mural31: {fileID: 21300000, guid: 138a64bce4f97bc4d96aa32413a6e2f3, type: 3}
+  mural32: {fileID: 21300000, guid: 8acda0aad96f4e74d943d8265b79f18e, type: 3}
+  mural33: {fileID: 21300000, guid: ac71a2b9ad78c7c478f98cd749caddcf, type: 3}
+  mural34: {fileID: 21300000, guid: 5823d0f46abdaa04fae3f42903b3f307, type: 3}
   frameWidth: 31
   fadeDuration: 1
   timeUntilDismissable: 3

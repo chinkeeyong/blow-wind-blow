@@ -251,37 +251,105 @@ public class PlayerShip : MonoBehaviour
     private void HandleReachingIslands(Collider island)
     {
         if (island.gameObject == Compass.targets[Compass.currentTargetNo]) {
-            switch (Wind.prevailingWind)
+            switch (Compass.currentTargetNo)
             {
+                case 0:
+                    switch (Wind.prevailingWind)
+                    {
+                        case 1:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
+                            Cutscene.Show(11);
+                            break;
+
+                        case 2:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+                            Cutscene.Show(12);
+                            break;
+
+                        case 3:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
+                            Cutscene.Show(13);
+                            break;
+
+                        case 4:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+                            Cutscene.Show(14);
+                            break;
+
+                        default:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+                            Cutscene.Show(11);
+                            break;
+                    }
+                    break;
+
                 case 1:
-                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
-                    Cutscene.Show(11);
+                    switch (Wind.prevailingWind)
+                    {
+                        case 1:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
+                            Cutscene.Show(21);
+                            break;
+
+                        case 2:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+                            Cutscene.Show(22);
+                            break;
+
+                        case 3:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
+                            Cutscene.Show(23);
+                            break;
+
+                        case 4:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+                            Cutscene.Show(24);
+                            break;
+
+                        default:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+                            Cutscene.Show(21);
+                            break;
+                    }
                     break;
 
                 case 2:
-                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
-                    Cutscene.Show(12);
-                    break;
+                    switch (Wind.prevailingWind)
+                    {
+                        case 1:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.cyan;
+                            Cutscene.Show(31);
+                            break;
 
-                case 3:
-                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
-                    Cutscene.Show(13);
-                    break;
+                        case 2:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+                            Cutscene.Show(32);
+                            break;
 
-                case 4:
-                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
-                    Cutscene.Show(14);
+                        case 3:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.magenta;
+                            Cutscene.Show(33);
+                            break;
+
+                        case 4:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+                            Cutscene.Show(34);
+                            break;
+
+                        default:
+                            island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+                            Cutscene.Show(31);
+                            break;
+                    }
                     break;
 
                 default:
-                    island.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
-                    Cutscene.Show(11);
                     break;
             }
             rb.velocity = new Vector3(0F, 0F, 0F);
             island.enabled = false;
             Wind.SetPrevailingWind(0);
-            if(!(Compass.currentTargetNo >= Compass.targets.Length)) {
+            if(Compass.currentTargetNo < 3) {
                 Compass.currentTargetNo++;
             }
         }

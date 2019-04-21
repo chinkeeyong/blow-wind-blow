@@ -368,27 +368,33 @@ public class Wind : MonoBehaviour
         weights[0] = 1F;
         if (Cutscene.active)
         {
-            switch (lastPrevailingWind)
+            if (Compass.currentTargetNo == 0)
             {
-                case 1:
-                    snapshots[0] = musicMixer.FindSnapshot("North Win");
-                    break;
+                snapshots[0] = musicMixer.FindSnapshot("Intro");
+            } else
+            {
+                switch (lastPrevailingWind)
+                {
+                    case 1:
+                        snapshots[0] = musicMixer.FindSnapshot("North Win");
+                        break;
 
-                case 2:
-                    snapshots[0] = musicMixer.FindSnapshot("South Win");
-                    break;
+                    case 2:
+                        snapshots[0] = musicMixer.FindSnapshot("South Win");
+                        break;
 
-                case 3:
-                    snapshots[0] = musicMixer.FindSnapshot("East Win");
-                    break;
+                    case 3:
+                        snapshots[0] = musicMixer.FindSnapshot("East Win");
+                        break;
 
-                case 4:
-                    snapshots[0] = musicMixer.FindSnapshot("West Win");
-                    break;
+                    case 4:
+                        snapshots[0] = musicMixer.FindSnapshot("West Win");
+                        break;
 
-                default:
-                    snapshots[0] = musicMixer.FindSnapshot("Default");
-                    break;
+                    default:
+                        snapshots[0] = musicMixer.FindSnapshot("Intro");
+                        break;
+                }
             }
         } else
         {
