@@ -31,6 +31,8 @@ public class Cutscene : MonoBehaviour
     public Sprite mural33;
     public Sprite mural34;
 
+    public Text credits;
+
     public int frameWidth;
     public float fadeDuration;
     public float timeUntilDismissable;
@@ -66,10 +68,13 @@ public class Cutscene : MonoBehaviour
     public static Image img;
     public static Animator animator;
     public static bool active;
+
+    public static bool endingReached;
     
     void Start()
     {
         active = false;
+        endingReached = false;
 
         img = gameObject.GetComponent(typeof(Image)) as Image;
         animator = gameObject.GetComponent(typeof(Animator)) as Animator;
@@ -103,7 +108,9 @@ public class Cutscene : MonoBehaviour
         staticMural34 = mural34;
 
         img.color = new Color(1F, 1F, 1F, 1F);
+        credits.color = new Color(1F, 1F, 1F, 1F);
         staticBlowToContinueSign.color = new Color(1F, 1F, 1F, 1F);
+
         staticNorthWindCutout.canvasRenderer.SetAlpha(0F);
         staticSouthWindCutout.canvasRenderer.SetAlpha(0F);
         staticEastWindCutout.canvasRenderer.SetAlpha(0F);
@@ -114,28 +121,49 @@ public class Cutscene : MonoBehaviour
         staticWestWindImage.canvasRenderer.SetAlpha(0F);
         staticBlowToContinueSign.canvasRenderer.SetAlpha(0F);
 
+        credits.canvasRenderer.SetAlpha(0F);
+
         Show(0);
     }
     
     void Update()
     {
-        if (active && Compass.currentTargetNo < 3)
+        if (active)
         {
-
             if (Time.realtimeSinceStartup > timePaused + timeUntilDismissable)
             {
-
-                if (staticBlowToContinueSign.canvasRenderer.GetAlpha() < 0.00001F)
+                if (Compass.currentTargetNo < 3)
                 {
-                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+
+                    if (staticBlowToContinueSign.canvasRenderer.GetAlpha() < 0.00001F)
                     {
-                        staticBlowToContinueSign.CrossFadeAlpha(1F, staticFadeDuration, true);
+                        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                        {
+                            staticBlowToContinueSign.CrossFadeAlpha(1F, staticFadeDuration, true);
+                        }
+                    }
+
+                    if (Wind.velocity.magnitude > 0F)
+                    {
+                        Hide();
                     }
                 }
-
-                if (Wind.velocity.magnitude > 0F)
+                else
                 {
-                    Hide();
+                    if (credits.canvasRenderer.GetAlpha() < 0.00001F)
+                    {
+                        if (!endingReached)
+                        {
+                            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75)
+                            {
+                                endingReached = true;
+                            }
+                        }
+                        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                        {
+                            credits.CrossFadeAlpha(1F, staticFadeDuration, true);
+                        }
+                    }
                 }
             }
         }

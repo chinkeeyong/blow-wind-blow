@@ -61,85 +61,87 @@ public class Music : MonoBehaviour
 
     void Update()
     {
-        if (!running)
+        if (running)
         {
-            return;
-        }
 
-        double time = AudioSettings.dspTime;
+            double time = AudioSettings.dspTime;
 
-        if (time + 2.0f > nextEventTime)
-        {
-            // We are now approx. 1 second before the time at which the sound should play,
-            // so we will schedule it now in order for the system to have enough time
-            // to prepare the playback at the specified time. This may involve opening
-            // buffering a streamed file and should therefore take any worst-case delay into account.
-
-            switch(mode)
+            if (time + 2.0f > nextEventTime)
             {
-                case "intro":
-                    mode = "main";
-                    audioSourcesVocal[flip].clip = mainVocal;
-                    audioSourcesSea[flip].clip = mainSea;
-                    audioSourcesNorth[flip].clip = mainNorth;
-                    audioSourcesSouth[flip].clip = mainSouth;
-                    audioSourcesEast[flip].clip = mainEast;
-                    audioSourcesWest[flip].clip = mainWest;
-                    break;
+                // We are now approx. 1 second before the time at which the sound should play,
+                // so we will schedule it now in order for the system to have enough time
+                // to prepare the playback at the specified time. This may involve opening
+                // buffering a streamed file and should therefore take any worst-case delay into account.
 
-                case "main":
-                    mode = "bridge";
-                    audioSourcesVocal[flip].clip = bridgeVocal;
-                    audioSourcesSea[flip].clip = bridgeSea;
-                    audioSourcesNorth[flip].clip = bridgeNorth;
-                    audioSourcesSouth[flip].clip = bridgeSouth;
-                    audioSourcesEast[flip].clip = bridgeEast;
-                    audioSourcesWest[flip].clip = bridgeWest;
-                    break;
+                switch (mode)
+                {
+                    case "intro":
+                        mode = "main";
+                        audioSourcesVocal[flip].clip = mainVocal;
+                        audioSourcesSea[flip].clip = mainSea;
+                        audioSourcesNorth[flip].clip = mainNorth;
+                        audioSourcesSouth[flip].clip = mainSouth;
+                        audioSourcesEast[flip].clip = mainEast;
+                        audioSourcesWest[flip].clip = mainWest;
+                        break;
 
-                case "bridge":
-                    mode = "main";
-                    audioSourcesVocal[flip].clip = mainVocal;
-                    audioSourcesSea[flip].clip = mainSea;
-                    audioSourcesNorth[flip].clip = mainNorth;
-                    audioSourcesSouth[flip].clip = mainSouth;
-                    audioSourcesEast[flip].clip = mainEast;
-                    audioSourcesWest[flip].clip = mainWest;
-                    break;
+                    case "main":
+                        if (Cutscene.endingReached)
+                        {
+                            mode = "end";
+                            audioSourcesVocal[flip].clip = endingVocal;
+                            audioSourcesSea[flip].clip = endingSea;
+                            audioSourcesNorth[flip].clip = endingNorth;
+                            audioSourcesSouth[flip].clip = endingSouth;
+                            audioSourcesEast[flip].clip = endingEast;
+                            audioSourcesWest[flip].clip = endingWest;
+                            running = false;
+                        }
+                        else
+                        {
+                            mode = "bridge";
+                            audioSourcesVocal[flip].clip = bridgeVocal;
+                            audioSourcesSea[flip].clip = bridgeSea;
+                            audioSourcesNorth[flip].clip = bridgeNorth;
+                            audioSourcesSouth[flip].clip = bridgeSouth;
+                            audioSourcesEast[flip].clip = bridgeEast;
+                            audioSourcesWest[flip].clip = bridgeWest;
+                        }
+                        break;
 
-                case "end":
-                    mode = "";
-                    audioSourcesVocal[flip].clip = endingVocal;
-                    audioSourcesSea[flip].clip = endingSea;
-                    audioSourcesNorth[flip].clip = endingNorth;
-                    audioSourcesSouth[flip].clip = endingSouth;
-                    audioSourcesEast[flip].clip = endingEast;
-                    audioSourcesWest[flip].clip = endingWest;
-                    running = false;
-                    break;
+                    case "bridge":
+                        mode = "main";
+                        audioSourcesVocal[flip].clip = mainVocal;
+                        audioSourcesSea[flip].clip = mainSea;
+                        audioSourcesNorth[flip].clip = mainNorth;
+                        audioSourcesSouth[flip].clip = mainSouth;
+                        audioSourcesEast[flip].clip = mainEast;
+                        audioSourcesWest[flip].clip = mainWest;
+                        break;
 
-                default:
-                    mode = "intro";
-                    audioSourcesVocal[flip].clip = introVocal;
-                    audioSourcesSea[flip].clip = introSea;
-                    audioSourcesNorth[flip].clip = introNorth;
-                    audioSourcesSouth[flip].clip = introSouth;
-                    audioSourcesEast[flip].clip = introEast;
-                    audioSourcesWest[flip].clip = introWest;
-                    break;
+                    default:
+                        mode = "intro";
+                        audioSourcesVocal[flip].clip = introVocal;
+                        audioSourcesSea[flip].clip = introSea;
+                        audioSourcesNorth[flip].clip = introNorth;
+                        audioSourcesSouth[flip].clip = introSouth;
+                        audioSourcesEast[flip].clip = introEast;
+                        audioSourcesWest[flip].clip = introWest;
+                        break;
+                }
+
+                audioSourcesVocal[flip].PlayScheduled(nextEventTime);
+                audioSourcesSea[flip].PlayScheduled(nextEventTime);
+                audioSourcesNorth[flip].PlayScheduled(nextEventTime);
+                audioSourcesSouth[flip].PlayScheduled(nextEventTime);
+                audioSourcesEast[flip].PlayScheduled(nextEventTime);
+                audioSourcesWest[flip].PlayScheduled(nextEventTime);
+
+                nextEventTime += audioSourcesSea[flip].clip.length;
+
+                // Flip between two audio sources so that the loading process of one does not interfere with the one that's playing out
+                flip = 1 - flip;
             }
-
-            audioSourcesVocal[flip].PlayScheduled(nextEventTime);
-            audioSourcesSea[flip].PlayScheduled(nextEventTime);
-            audioSourcesNorth[flip].PlayScheduled(nextEventTime);
-            audioSourcesSouth[flip].PlayScheduled(nextEventTime);
-            audioSourcesEast[flip].PlayScheduled(nextEventTime);
-            audioSourcesWest[flip].PlayScheduled(nextEventTime);
-
-            nextEventTime += audioSourcesSea[flip].clip.length;
-
-            // Flip between two audio sources so that the loading process of one does not interfere with the one that's playing out
-            flip = 1 - flip;
         }
     }
 }

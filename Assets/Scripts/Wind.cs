@@ -371,7 +371,33 @@ public class Wind : MonoBehaviour
             if (Compass.currentTargetNo == 0)
             {
                 snapshots[0] = musicMixer.FindSnapshot("Intro");
-            } else
+            }
+            else if (Cutscene.endingReached)
+            {
+                switch (lastPrevailingWind)
+                {
+                    case 1:
+                        snapshots[0] = musicMixer.FindSnapshot("North Ending");
+                        break;
+
+                    case 2:
+                        snapshots[0] = musicMixer.FindSnapshot("South Ending");
+                        break;
+
+                    case 3:
+                        snapshots[0] = musicMixer.FindSnapshot("East Ending");
+                        break;
+
+                    case 4:
+                        snapshots[0] = musicMixer.FindSnapshot("West Ending");
+                        break;
+
+                    default:
+                        snapshots[0] = musicMixer.FindSnapshot("Intro");
+                        break;
+                }
+            }
+            else
             {
                 switch (lastPrevailingWind)
                 {

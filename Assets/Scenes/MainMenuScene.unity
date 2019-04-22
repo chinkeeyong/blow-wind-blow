@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03602991b5db5b949ba506c998446b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usingArduinoInput: 0
+  usingArduinoInput: 1
   background: {fileID: 412316467}
 --- !u!4 &1997175544
 Transform:
