@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\EndlessWaterSquare.cs" />
     <Compile Include="Assets\Scripts\FollowShip.cs" />
     <Compile Include="Assets\Scripts\GamePauser.cs" />
+    <Compile Include="Assets\Scripts\IdleScreen.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Music.cs" />
     <Compile Include="Assets\Scripts\PickupScript.cs" />

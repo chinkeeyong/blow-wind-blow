@@ -35,7 +35,7 @@ public class Cutscene : MonoBehaviour
 
     public int frameWidth;
     public float fadeDuration;
-    public float timeUntilDismissable;
+    public float timeUntilResetAfterEnding;
 
     public static Image staticNorthWindCutout;
     public static Image staticSouthWindCutout;
@@ -70,11 +70,13 @@ public class Cutscene : MonoBehaviour
     public static bool active;
 
     public static bool endingReached;
+    public static bool okToLoadMainMenu;
     
     void Start()
     {
         active = false;
         endingReached = false;
+        okToLoadMainMenu = false;
 
         img = gameObject.GetComponent(typeof(Image)) as Image;
         animator = gameObject.GetComponent(typeof(Animator)) as Animator;
@@ -125,40 +127,46 @@ public class Cutscene : MonoBehaviour
 
         Show(0);
     }
-    
+
     void Update()
     {
         if (active)
         {
-            if (Time.realtimeSinceStartup > timePaused + timeUntilDismissable)
+            if (Time.realtimeSinceStartup - timePaused > 1F)
+            // We have to check if one second has passed, otherwise animator hiccups because for some reason update happens before animator.
             {
                 if (Compass.currentTargetNo < 3)
                 {
-
-                    if (staticBlowToContinueSign.canvasRenderer.GetAlpha() < 0.00001F)
+                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
                     {
-                        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                        if (staticBlowToContinueSign.canvasRenderer.GetAlpha() < 0.00001F)
                         {
                             staticBlowToContinueSign.CrossFadeAlpha(1F, staticFadeDuration, true);
                         }
-                    }
 
-                    if (Wind.velocity.magnitude > 0F)
-                    {
-                        Hide();
+                        if (Wind.velocity.magnitude > 0F)
+                        {
+                            Hide();
+                        }
                     }
                 }
                 else
                 {
+                    if (!endingReached)
+                    {
+                        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75)
+                        {
+                            endingReached = true;
+                        }
+                    } else
+                    {
+                        if (timePaused + timeUntilResetAfterEnding < Time.realtimeSinceStartup)
+                        {
+                            okToLoadMainMenu = true;
+                        }
+                    }
                     if (credits.canvasRenderer.GetAlpha() < 0.00001F)
                     {
-                        if (!endingReached)
-                        {
-                            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75)
-                            {
-                                endingReached = true;
-                            }
-                        }
                         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
                         {
                             credits.CrossFadeAlpha(1F, staticFadeDuration, true);

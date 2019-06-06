@@ -13,6 +13,7 @@ public class MainMenuScript : MonoBehaviour
     private SerialPort sp;
 
     public Image background;
+    public Text loadingText;
 
     private bool loading;
 
@@ -34,6 +35,7 @@ public class MainMenuScript : MonoBehaviour
         if (loading)
         {
             background.color = Color.black;
+            loadingText.color = Color.white;
         }
         else
         {
