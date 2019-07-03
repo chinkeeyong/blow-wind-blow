@@ -11,6 +11,7 @@ public class GamePauser : MonoBehaviour
     void Start()
     {
         paused = false;
+        Time.timeScale = 1F;
         originalTimeScale = Time.timeScale;
     }
 

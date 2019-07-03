@@ -84,9 +84,17 @@ public class Wind : MonoBehaviour
         // Initialize serial port
         if (usingArduinoInput)
         {
-            sp = new SerialPort("COM3", 9600);
-            sp.Open();
-            sp.ReadTimeout = 1;
+            try
+            {
+                sp = new SerialPort("COM3", 9600);
+                sp.Open();
+                sp.ReadTimeout = 1;
+            }
+            catch
+            {
+                print("No Arduino input detected");
+                usingArduinoInput = false;
+            }
         }
 
         // Make an array of all Cloth objects that can be blown by wind
@@ -129,6 +137,8 @@ public class Wind : MonoBehaviour
 
     private void GetInput()
     {
+        inputHorizontal = 0;
+        inputVertical = 0;
         if (usingArduinoInput)
         {
             if (sp.IsOpen)
@@ -223,9 +233,12 @@ public class Wind : MonoBehaviour
                 }
             }
         }
-        else
+        if (inputHorizontal == 0)
         {
             inputHorizontal = Input.GetAxisRaw("Horizontal");
+        }
+        if (inputVertical == 0)
+        {
             inputVertical = Input.GetAxisRaw("Vertical");
         }
 

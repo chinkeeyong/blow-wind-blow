@@ -22,9 +22,17 @@ public class MainMenuScript : MonoBehaviour
 
         if (usingArduinoInput)
         {
-            sp = new SerialPort("COM3", 9600);
-            sp.Open();
-            sp.ReadTimeout = 1;
+            try
+            {
+                sp = new SerialPort("COM3", 9600);
+                sp.Open();
+                sp.ReadTimeout = 1;
+            }
+            catch
+            {
+                print("No Arduino detected");
+                usingArduinoInput = false;
+            }
         }
 
         loading = false;
@@ -53,7 +61,7 @@ public class MainMenuScript : MonoBehaviour
 
                         direction = 0;
                     }
-                    if (direction == -2)
+                    if (direction != 0)
                     {
                         loading = true;
 
@@ -62,15 +70,12 @@ public class MainMenuScript : MonoBehaviour
                     }
                 }
             }
-            else
+            if (Input.anyKey)
             {
-                if (Input.anyKey)
-                {
-                    loading = true;
+                loading = true;
 
-                    // Use a coroutine to load the Scene in the background
-                    StartCoroutine(LoadYourAsyncScene());
-                }
+                // Use a coroutine to load the Scene in the background
+                StartCoroutine(LoadYourAsyncScene());
             }
         }
     }

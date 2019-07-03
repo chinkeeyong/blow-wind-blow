@@ -68,6 +68,7 @@
     <Compile Include="Assets\Prefab\Water\Water\Scripts\Water.cs" />
     <Compile Include="Assets\Prefab\Water\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\Prefab\Water\Water\Scripts\WaterTile.cs" />
+    <Compile Include="Assets\Scripts\BobbingScript.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Compass.cs" />
     <Compile Include="Assets\Scripts\Cutscene.cs" />

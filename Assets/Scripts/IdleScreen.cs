@@ -33,26 +33,15 @@ public class IdleScreen : MonoBehaviour
         }
 
         // Return if we have an input or we are loading
-        if (Wind.velocity.magnitude > 0F || loading)
+        if (Wind.velocity.magnitude > 0F || loading || GamePauser.paused)
         {
             timeSinceLastInput = 0F;
-            return;
+        }
+        else
+        {   // We have no inputs and the game is not paused. Add delta time to timeSinceLastInput
+            timeSinceLastInput += Time.deltaTime;
         }
 
-        // Return if the game is paused
-        if (GamePauser.paused)
-        {
-            timeSinceLastInput = 0F;
-            return;
-        }
-
-        // We have no inputs and the game is not paused. Add delta time to timeSinceLastInput
-
-        timeSinceLastInput += Time.deltaTime;
-        print(timeSinceLastInput);
-
-        int _countdownNumber = Mathf.FloorToInt(timeUntilGameReset - timeSinceLastInput);
-        countdown.text = _countdownNumber.ToString();
 
         // Trigger idle screen?
 
@@ -63,6 +52,11 @@ public class IdleScreen : MonoBehaviour
                 StartCoroutine(LoadYourAsyncScene());
                 countdown.text = "Returning to title screen...";
                 loading = true;
+            }
+            else
+            {
+                int _countdownNumber = Mathf.FloorToInt(timeUntilGameReset - timeSinceLastInput);
+                countdown.text = _countdownNumber.ToString();
             }
             idleScreen.alpha = Mathf.Lerp(idleScreen.alpha, 1F, Time.deltaTime * 5);
         }
