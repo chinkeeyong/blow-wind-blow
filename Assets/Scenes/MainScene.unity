@@ -10312,7 +10312,7 @@ RectTransform:
   m_GameObject: {fileID: 331285672}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 1948230110}
   m_RootOrder: 3
@@ -10320,7 +10320,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100000, y: 314.8}
+  m_SizeDelta: {x: 100000, y: 74}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &331285674
 MonoBehaviour:
@@ -16920,7 +16920,7 @@ RectTransform:
   m_GameObject: {fileID: 961112492}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 1948230110}
   m_RootOrder: 1
@@ -16928,7 +16928,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100000, y: 314.8}
+  m_SizeDelta: {x: 100000, y: 74}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &961112494
 MonoBehaviour:
@@ -17935,7 +17935,7 @@ RectTransform:
   m_GameObject: {fileID: 1151672088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0}
   m_Children: []
   m_Father: {fileID: 1948230110}
   m_RootOrder: 0
@@ -17943,7 +17943,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100000, y: 314.8}
+  m_SizeDelta: {x: 100000, y: 74}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1151672090
 MonoBehaviour:
@@ -20748,7 +20748,7 @@ RectTransform:
   m_GameObject: {fileID: 1541019293}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 1948230110}
   m_RootOrder: 2
@@ -20756,7 +20756,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100000, y: 314.8}
+  m_SizeDelta: {x: 100000, y: 74}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1541019295
 MonoBehaviour:
@@ -25858,7 +25858,7 @@ MonoBehaviour:
   mural33: {fileID: 21300000, guid: ac71a2b9ad78c7c478f98cd749caddcf, type: 3}
   mural34: {fileID: 21300000, guid: 5823d0f46abdaa04fae3f42903b3f307, type: 3}
   credits: {fileID: 357325984}
-  frameWidth: 31
+  frameWidth: 29
   fadeDuration: 1
   timeUntilResetAfterEnding: 60
 --- !u!95 &2075978318
